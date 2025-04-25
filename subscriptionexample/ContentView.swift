@@ -8,24 +8,62 @@
 //  Copyright (c) 2023 nothing-to-add
 //
 
-
-//change text to "My first SwiftUI app" and change the image to "star.fill"
-
-
 import SwiftUI
+import StoreKit
 
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "star.fill")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("My first SwiftUI app")
+            SubscriptionView()
         }
         .padding()
     }
 }
 
+struct SubscriptionView: View {
+    @StateObject private var subscriptionManager = SubscriptionManager()
+
+    var body: some View {
+        VStack {
+            if subscriptionManager.isSubscribed {
+                Text("Thank you for subscribing!")
+                    .font(.title)
+                    .padding()
+            } else {
+                Text("Subscribe to unlock premium features")
+                    .font(.title2)
+                    .padding()
+
+                Button(action: {
+                    subscriptionManager.purchaseSubscription()
+                }) {
+                    Text("Subscribe Now")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+
+                Button(action: {
+                    subscriptionManager.restorePurchases()
+                }) {
+                    Text("Restore Purchases")
+                        .font(.subheadline)
+                        .padding()
+                }
+            }
+        }
+        .onAppear {
+            subscriptionManager.fetchProducts()
+        }
+    }
+}
+
 #Preview {
     ContentView()
+}
+
+#Preview {
+    SubscriptionView()
 }
