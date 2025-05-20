@@ -14,13 +14,21 @@ import StoreKit
 class SubscriptionManager: NSObject, ObservableObject {
     @Published var isSubscribed: Bool = false
     @Published var products: [Product] = []
+    @Published var mockProducts: [MockProduct] = []
     private var transactionListener: Task<Void, Error>?
+    
+    // Flag to use mock data during development
+    private let useMockData = true
     
     override init() {
         super.init()
         Task {
             transactionListener = await listenForTransactions()
-            await fetchProducts()
+            if useMockData {
+                createMockProductsUI()
+            } else {
+                await fetchProducts()
+            }
         }
     }
     
@@ -103,6 +111,39 @@ class SubscriptionManager: NSObject, ObservableObject {
         case .verified(let safe):
             return safe
         }
+    }
+    
+    // Create UI-only mock products for development
+    private func createMockProductsUI() {
+        let mockItems = [
+            MockProduct(
+                id: "com.yourapp.subscription.monthly",
+                displayName: "Monthly Premium",
+                description: "Unlimited access to all premium features with monthly billing",
+                displayPrice: "$9.99",
+                subscription: true,
+                period: "Monthly"
+            ),
+            MockProduct(
+                id: "com.yourapp.subscription.yearly",
+                displayName: "Yearly Premium (Save 20%)",
+                description: "Unlimited access to all premium features with annual billing",
+                displayPrice: "$79.99",
+                subscription: true,
+                period: "Yearly"
+            ),
+            MockProduct(
+                id: "com.yourapp.lifetime",
+                displayName: "Lifetime Access",
+                description: "One-time purchase for unlimited lifetime access to all premium features",
+                displayPrice: "$199.99",
+                subscription: false,
+                period: nil
+            )
+        ]
+        
+        // Set the mock products directly
+        self.mockProducts = mockItems
     }
 }
 

@@ -14,7 +14,7 @@ import SwiftUI
 struct subscriptionexampleApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SubscriptionView()
         }
     }
 }
