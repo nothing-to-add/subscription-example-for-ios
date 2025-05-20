@@ -35,7 +35,9 @@ struct SubscriptionView: View {
                     .padding()
 
                 Button(action: {
-                    subscriptionManager.purchaseSubscription()
+                    Task {
+                        await subscriptionManager.purchase()
+                    }
                 }) {
                     Text("Subscribe Now")
                         .font(.headline)
@@ -46,16 +48,58 @@ struct SubscriptionView: View {
                 }
 
                 Button(action: {
-                    subscriptionManager.restorePurchases()
+                    Task {
+                        await subscriptionManager.restore()
+                    }
                 }) {
                     Text("Restore Purchases")
                         .font(.subheadline)
                         .padding()
                 }
+                
+                if !subscriptionManager.products.isEmpty {
+                    Text("Available Products:")
+                        .font(.headline)
+                        .padding(.top)
+                    
+                    ForEach(subscriptionManager.products, id: \.id) { product in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(product.displayName)
+                                    .font(.subheadline)
+                                    .bold()
+                                Text(product.description)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            Text(product.displayPrice)
+                                .font(.headline)
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            Task {
+                                try? await subscriptionManager.purchaseSubscription(product: product)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Display loading indicator while fetching products
+            if subscriptionManager.products.isEmpty && !subscriptionManager.isSubscribed {
+                ProgressView("Loading products...")
+                    .padding()
             }
         }
         .onAppear {
-            subscriptionManager.fetchProducts()
+            Task {
+                await subscriptionManager.fetchProducts()
+            }
         }
     }
 }
