@@ -1,7 +1,7 @@
 //
 //  File name: SubscriptionManager.swift
 //  Project name: subscriptionexample
-//  Workspace name: Untitled 1
+//  Workspace name: subscriptionexample
 //
 //  Created by: nothing-to-add on 01/04/2025
 //  Using Swift 6.0
