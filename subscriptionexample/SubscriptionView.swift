@@ -10,12 +10,12 @@
 
 import SwiftUI
 import StoreKit
+import CustomExtensions
 
 struct SubscriptionView: View {
     @StateObject private var subscriptionManager = SubscriptionManager()
     @State private var selectedProduct: Product?
     @State private var selectedMockProduct: MockProduct?
-    @State private var purchaseInProgress = false
     @State private var errorMessage: String? = nil
 
     var body: some View {
@@ -26,7 +26,7 @@ struct SubscriptionView: View {
                 VStack(spacing: 10) {
                     
                     if subscriptionManager.isSubscribed {
-                        successView
+                        SuccessView()
                     } else {
                         // Main content with spacing adjusted to fill screen
                         VStack(spacing: 16) {
@@ -34,36 +34,13 @@ struct SubscriptionView: View {
                             headerView
                             
                             // Free trial - prominent
-                            freeTrialView
+                            FreeTrialView()
                             
                             // Products - compact
                             productsView
                             
                             // Bottom area
-                            VStack(spacing: 12) {
-                                // Subscribe button with improved text contrast
-                                subscribeButton
-                                
-                                // Error message if present
-                                if let error = errorMessage {
-                                    Text(error)
-                                        .font(.system(size: 12, design: .rounded))
-                                        .foregroundColor(.red)
-                                }
-                                
-                                // Footer elements
-                                VStack(spacing: 16) {
-                                    // Restore purchases
-                                    restoreButton
-                                    
-                                    // Terms & Privacy - minimal
-                                    Text("Terms & Privacy")
-                                        .font(.system(size: 12, weight: .medium, design: .rounded))
-                                        .foregroundColor(.blue)
-                                        .underline()
-                                }
-                                .padding(.top, 5)
-                            }
+                            bottomView
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
@@ -85,54 +62,9 @@ struct SubscriptionView: View {
         .ignoresSafeArea()
     }
     
-    private var successView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.green)
-                .padding()
-            
-            Text("Thank you for subscribing!")
-                .font(.system(size: 24, weight: .bold, design: .rounded))
-                .multilineTextAlignment(.center)
-            
-            Text("Enjoy full access to all premium features")
-                .font(.system(size: 16, weight: .regular, design: .rounded))
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-    }
-    
     private var headerView: some View {
         Text("Premium Access")
             .font(.system(size: 24, weight: .bold, design: .rounded))
-    }
-    
-    private var freeTrialView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("5 DAYS FREE \nTRIAL")
-                .font(.system(size: 45, weight: .heavy, design: .rounded))
-                .foregroundColor(.blue)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Text("Cancel anytime before your trial ends")
-                .font(.system(size: 14, weight: .medium, design: .rounded))
-                .foregroundColor(.secondary)
-//                .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .padding(.vertical, 10)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(
-//            RoundedRectangle(cornerRadius: 16)
-//                .fill(Color.blue.opacity(0.1))
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 16)
-//                        .stroke(Color.blue.opacity(0.3), lineWidth: 1)
-//                )
-//        )
     }
     
     @ViewBuilder
@@ -158,7 +90,6 @@ struct SubscriptionView: View {
     @ViewBuilder
     private var mockProductsView: some View {
         VStack(spacing: 10) {
-//        LazyVGriD(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
             ForEach(subscriptionManager.mockProducts) { product in
                 ProductRowView(
                     name: product.displayName,
@@ -187,7 +118,6 @@ struct SubscriptionView: View {
     @ViewBuilder
     private var availableProductsView: some View {
         VStack(spacing: 10) {
-//        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
             ForEach(subscriptionManager.products, id: \.id) { product in
                 let subscriptionPeriodType = product.subscription?.subscriptionPeriod.unit
                 let periodText = formatPeriod(for: subscriptionPeriodType)
@@ -216,48 +146,37 @@ struct SubscriptionView: View {
         }
     }
     
-    private var subscribeButton: some View {
-        Button(action: {
-            Task {
-                await purchaseSelectedProduct()
-            }
-        }) {
-            if purchaseInProgress {
-                ProgressView()
-                    .tint(.white)
-                    .frame(height: 20)
-            } else {
-                Text("SUBSCRIBE NOW")
-                    .font(.system(size: 18, weight: .bold, design: .rounded))
-                    .foregroundColor(.white) // Ensuring white text for better contrast
-            }
+    private var footer: some View {
+        VStack(spacing: 16) {
+            // Restore purchases
+            RestoreButtonView(subscriptionManager: subscriptionManager)
+            
+            // Terms & Privacy - minimal
+            Text("Terms & Privacy")
+                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .foregroundColor(.blue)
+                .underline()
         }
-        .disabled((selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress)
-        .padding()
-        .frame(height: 50)
-        .frame(maxWidth: .infinity)
-        .background(
-            (selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress ?
-                LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.7)]), startPoint: .leading, endPoint: .trailing) :
-                LinearGradient(gradient: Gradient(colors: [Color(hex: 0x3366FF), Color(hex: 0x6633CC)]), startPoint: .leading, endPoint: .trailing)
-        )
-        .cornerRadius(15)
-        .shadow(color: (selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress ? Color.clear : Color.black.opacity(0.25), radius: 5, x: 0, y: 2)
-        .overlay(
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(Color.white.opacity(0.3), lineWidth: 1)
-        )
+        .padding(.top, 5)
     }
     
-    private var restoreButton: some View {
-        Button(action: {
-            Task {
-                await subscriptionManager.restore()
+    private var bottomView: some View {
+        VStack(spacing: 12) {
+            // Subscribe button with improved text contrast
+            SubscribeButtonView(subscriptionManager: subscriptionManager,
+                                selectedProduct: $selectedProduct,
+                                selectedMockProduct: $selectedMockProduct,
+                                errorMessage: $errorMessage)
+            
+            // Error message if present
+            if let error = errorMessage {
+                Text(error)
+                    .font(.system(size: 14, design: .rounded))
+                    .foregroundColor(.red)
             }
-        }) {
-            Text("Restore Purchases")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundColor(.secondary)
+            
+            // Footer elements
+            footer
         }
     }
     
@@ -357,45 +276,6 @@ struct SubscriptionView: View {
         @unknown default:
             return nil
         }
-    }
-    
-    private func purchaseSelectedProduct() async {
-        purchaseInProgress = true
-        errorMessage = nil
-        
-        defer { purchaseInProgress = false }
-        
-        // Handle mock products
-        if selectedMockProduct != nil {
-            // Simulate purchase with mock data
-            try? await Task.sleep(nanoseconds: 2 * 1_000_000_000) // 2 second delay to simulate network request
-            
-            // For demo purposes, automatically succeed with mock products
-            subscriptionManager.isSubscribed = true
-            return
-        }
-        
-        // Handle real products
-        if let product = selectedProduct {
-            do {
-                try await subscriptionManager.purchaseSubscription(product: product)
-            } catch {
-                errorMessage = "Purchase failed: \(error.localizedDescription)"
-            }
-        }
-    }
-}
-
-// Color extension to use hex values
-extension Color {
-    init(hex: UInt, alpha: Double = 1) {
-        self.init(
-            .sRGB,
-            red: Double((hex >> 16) & 0xff) / 255,
-            green: Double((hex >> 8) & 0xff) / 255,
-            blue: Double(hex & 0xff) / 255,
-            opacity: alpha
-        )
     }
 }
 

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F57799542DDE73A900550E81 /* CustomExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = F57799532DDE73A900550E81 /* CustomExtensions */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F514B2412D9C7D590008B3D3 /* subscriptionexample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = subscriptionexample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F57799542DDE73A900550E81 /* CustomExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = subscriptionexample;
 			packageProductDependencies = (
+				F57799532DDE73A900550E81 /* CustomExtensions */,
 			);
 			productName = subscriptionexample;
 			productReference = F514B2412D9C7D590008B3D3 /* subscriptionexample.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = F514B2382D9C7D590008B3D3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F57799522DDE73A900550E81 /* XCRemoteSwiftPackageReference "swift-custom-extensions" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F514B2422D9C7D590008B3D3 /* Products */;
 			projectDirPath = "";
@@ -322,6 +331,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F57799522DDE73A900550E81 /* XCRemoteSwiftPackageReference "swift-custom-extensions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nothing-to-add/swift-custom-extensions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F57799532DDE73A900550E81 /* CustomExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F57799522DDE73A900550E81 /* XCRemoteSwiftPackageReference "swift-custom-extensions" */;
+			productName = CustomExtensions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F514B2392D9C7D590008B3D3 /* Project object */;
 }
