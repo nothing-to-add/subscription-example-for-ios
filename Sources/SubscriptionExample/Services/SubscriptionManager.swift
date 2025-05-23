@@ -1,26 +1,21 @@
-//
-//  File name: SubscriptionManager.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 01/04/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// SubscriptionManager.swift
+// Package subscription manager service
 
 import StoreKit
+import SwiftUI
 
 @MainActor
-class SubscriptionManager: NSObject, ObservableObject {
-    @Published var isSubscribed: Bool = false
-    @Published var products: [Product] = []
-    @Published var mockProducts: [MockProduct] = []
+public class SubscriptionManager: NSObject, ObservableObject {
+    @Published public var isSubscribed: Bool = false
+    @Published public var products: [Product] = []
+    @Published public var mockProducts: [MockProduct] = []
     private var transactionListener: Task<Void, Error>?
     
     // Flag to use mock data during development
-    private let useMockData = true
+    private let useMockData: Bool
     
-    override init() {
+    public init(useMockData: Bool = true) {
+        self.useMockData = useMockData
         super.init()
         Task {
             transactionListener = await listenForTransactions()
@@ -36,7 +31,7 @@ class SubscriptionManager: NSObject, ObservableObject {
         transactionListener?.cancel()
     }
     
-    func fetchProducts() async {
+    public func fetchProducts() async {
         do {
             let storeProducts = try await Product.products(for: ["com.yourapp.subscription"])
             self.products = storeProducts
@@ -45,7 +40,7 @@ class SubscriptionManager: NSObject, ObservableObject {
         }
     }
     
-    func purchaseSubscription(product: Product) async throws {
+    public func purchaseSubscription(product: Product) async throws {
         let result = try await product.purchase()
         
         switch result {
@@ -62,7 +57,7 @@ class SubscriptionManager: NSObject, ObservableObject {
         }
     }
     
-    func restorePurchases() async {
+    public func restorePurchases() async {
         do {
             try await AppStore.sync()
             await updateSubscriptionStatus()
@@ -147,12 +142,12 @@ class SubscriptionManager: NSObject, ObservableObject {
     }
 }
 
-enum StoreError: Error {
+public enum StoreError: Error {
     case failedVerification
 }
 
 // Extension for convenience methods
-extension SubscriptionManager {
+public extension SubscriptionManager {
     func purchase() async {
         if let product = products.first {
             do {

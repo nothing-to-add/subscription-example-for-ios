@@ -1,18 +1,12 @@
-//
-//  File name: FreeTrialView.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 22/05/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// FreeTrialView.swift
+// Free trial promotional view
 
 import SwiftUI
-import CustomExtensions
 
-struct FreeTrialView: View {
-    var body: some View {
+public struct FreeTrialView: View {
+    public init() {}
+    
+    public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(C.Text.FreeTrial.title.localized().toLocalizedString())
                 .font(.system(size: 45, weight: .heavy, design: .rounded))

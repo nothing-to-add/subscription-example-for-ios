@@ -1,24 +1,26 @@
-//
-//  File name: ProductRowView.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 21/05/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// ProductRowView.swift
+// View for displaying product options
 
 import SwiftUI
 
-struct ProductRowView: View {
-    let name: String
-    let description: String
-    let price: String
-    let periodText: String?
-    let isSelected: Bool
-    let monthlyPrice: String?
+public struct ProductRowView: View {
+    public let name: String
+    public let description: String
+    public let price: String
+    public let periodText: String?
+    public let isSelected: Bool
+    public let monthlyPrice: String?
     
-    var body: some View {
+    public init(name: String, description: String, price: String, periodText: String?, isSelected: Bool, monthlyPrice: String?) {
+        self.name = name
+        self.description = description
+        self.price = price
+        self.periodText = periodText
+        self.isSelected = isSelected
+        self.monthlyPrice = monthlyPrice
+    }
+    
+    public var body: some View {
         VStack(spacing: 6) {
             // Product name in center
             Text(name)
@@ -73,5 +75,5 @@ struct ProductRowView: View {
                      monthlyPrice: "$6.67 / month")
     }
     .padding()
-    .background(Color(.systemBackground))
+    .background(Color.white)
 }

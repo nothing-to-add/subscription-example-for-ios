@@ -1,24 +1,21 @@
-//
-//  File name: SubscriptionView.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 21/05/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// SubscriptionView.swift
+// Main subscription view
 
 import SwiftUI
 import StoreKit
-import CustomExtensions
 
-struct SubscriptionView: View {
-    @StateObject private var subscriptionManager = SubscriptionManager()
+public struct SubscriptionView: View {
+    @StateObject private var subscriptionManager: SubscriptionManager
     @State private var selectedProduct: Product?
     @State private var selectedMockProduct: MockProduct?
     @State private var errorMessage: String? = nil
+    
+    public init(useMockData: Bool = true) {
+        // Need to use _subscriptionManager because @StateObject can't be initialized directly in init
+        self._subscriptionManager = StateObject(wrappedValue: SubscriptionManager(useMockData: useMockData))
+    }
 
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 backgroundGradient
@@ -54,8 +51,8 @@ struct SubscriptionView: View {
     
     private var backgroundGradient: some View {
         LinearGradient(
-            gradient: Gradient(colors: [Color(.systemGray2).opacity(0.8),
-                                        Color(.systemGray6)]),
+            gradient: Gradient(colors: [Color.gray.opacity(0.8),
+                                        Color.gray.opacity(0.2)]),
             startPoint: .topTrailing,
             endPoint: .bottomLeading
         )
@@ -236,11 +233,11 @@ struct SubscriptionView: View {
         if period.contains("week") {
             // Weekly to monthly: price * 4
             let monthlyPrice = priceValue * 4
-            return String(format: "$%.2f /month", monthlyPrice)
+            return String(format: C.Text.SubscriptionView.monthlyPriceText.localized().toLocalizedString(), String(format: "$%.2f", monthlyPrice))
         } else if period.contains("year") || period.contains("annual") {
             // Yearly to monthly: price / 12
             let monthlyPrice = priceValue / 12
-            return String(format: "$%.2f /month", monthlyPrice)
+            return String(format: C.Text.SubscriptionView.monthlyPriceText.localized().toLocalizedString(), String(format: "$%.2f", monthlyPrice))
         } else if period.contains("month") {
             // Already monthly
             return nil
@@ -270,3 +267,4 @@ struct SubscriptionView: View {
 #Preview {
     SubscriptionView()
 }
+

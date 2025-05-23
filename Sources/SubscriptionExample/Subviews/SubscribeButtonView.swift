@@ -1,26 +1,27 @@
-//
-//  File name: SubscribeButtonView.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 22/05/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// SubscribeButtonView.swift
+// Button for purchasing subscriptions
 
 import SwiftUI
 import StoreKit
-import CustomExtensions
 
-struct SubscribeButtonView: View {
+public struct SubscribeButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
     @State private var purchaseInProgress = false
     @Binding var selectedProduct: Product?
     @Binding var selectedMockProduct: MockProduct?
-//    @State private var purchaseInProgress = false
     @Binding var errorMessage: String?
     
-    var body: some View {
+    public init(subscriptionManager: SubscriptionManager, 
+         selectedProduct: Binding<Product?>,
+         selectedMockProduct: Binding<MockProduct?>,
+         errorMessage: Binding<String?>) {
+        self.subscriptionManager = subscriptionManager
+        self._selectedProduct = selectedProduct
+        self._selectedMockProduct = selectedMockProduct
+        self._errorMessage = errorMessage
+    }
+    
+    public var body: some View {
         Button(action: {
             Task {
                 await purchaseSelectedProduct()
@@ -43,7 +44,7 @@ struct SubscribeButtonView: View {
         .background(
             (selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress ?
                 LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.7)]), startPoint: .leading, endPoint: .trailing) :
-                LinearGradient(gradient: Gradient(colors: [Color(hex: 0x3366FF), Color(hex: 0x6633CC)]), startPoint: .leading, endPoint: .trailing)
+                LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing)
         )
         .cornerRadius(15)
         .shadow(color: (selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress ? Color.clear : Color.black.opacity(0.25), radius: 5, x: 0, y: 2)
@@ -79,7 +80,3 @@ struct SubscribeButtonView: View {
         }
     }
 }
-
-//#Preview {
-//    SubscribeButtonView(subscriptionManager: SubscriptionManager(), selectedProduct: nil, selectedMockProduct: nil, errorMessage: nil)
-//}

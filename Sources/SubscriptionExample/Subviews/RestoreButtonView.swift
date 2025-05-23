@@ -1,20 +1,16 @@
-//
-//  File name: RestoreButtonView.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 22/05/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// RestoreButtonView.swift
+// Button for restoring previous purchases
 
 import SwiftUI
-import CustomExtensions
 
-struct RestoreButtonView: View {
+public struct RestoreButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
     
-    var body: some View {
+    public init(subscriptionManager: SubscriptionManager) {
+        self.subscriptionManager = subscriptionManager
+    }
+    
+    public var body: some View {
         Button(action: {
             Task {
                 await subscriptionManager.restore()

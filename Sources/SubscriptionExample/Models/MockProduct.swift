@@ -1,26 +1,19 @@
-//
-//  File name: MockProduct.swift
-//  Project name: subscriptionexample
-//  Workspace name: subscriptionexample
-//
-//  Created by: nothing-to-add on 21/05/2025
-//  Using Swift 6.0
-//  Copyright (c) 2023 nothing-to-add
-//
+// MockProduct.swift
+// Mock product model for UI display during development
 
 import Foundation
 import StoreKit
 
 // Mock product class to use for UI display during development
-class MockProduct: Identifiable {
-    let id: String
-    let displayName: String
-    let description: String
-    let displayPrice: String
-    let subscription: Bool
-    let period: String?
+public class MockProduct: Identifiable {
+    public let id: String
+    public let displayName: String
+    public let description: String
+    public let displayPrice: String
+    public let subscription: Bool
+    public let period: String?
     
-    init(id: String, displayName: String, description: String, displayPrice: String, subscription: Bool, period: String?) {
+    public init(id: String, displayName: String, description: String, displayPrice: String, subscription: Bool, period: String?) {
         self.id = id
         self.displayName = displayName
         self.description = description
@@ -29,7 +22,7 @@ class MockProduct: Identifiable {
         self.period = period
     }
     
-    init?(dictionary: [String: Any]) {
+    public init?(dictionary: [String: Any]) {
         guard let id = dictionary["id"] as? String,
               let displayName = dictionary["displayName"] as? String,
               let description = dictionary["description"] as? String,
