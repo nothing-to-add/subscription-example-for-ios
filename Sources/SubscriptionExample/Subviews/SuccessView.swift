@@ -1,12 +1,19 @@
-// SuccessView.swift
-// Success view shown after successful subscription
+//
+//  File name: SuccessView.swift
+//  Project name: subscriptionexample
+//  Workspace name: subscriptionexample
+//
+//  Created by: nothing-to-add on 22/05/2025
+//  Using Swift 6.0
+//  Copyright (c) 2023 nothing-to-add
+//
 
 import SwiftUI
 
-public struct SuccessView: View {
-    public init() {}
+struct SuccessView: View {
+    init() {}
     
-    public var body: some View {
+    var body: some View {
         VStack(spacing: 20) {
             Image(systemName: C.Image.successLogo)
                 .font(.system(size: 60))
@@ -28,6 +35,7 @@ public struct SuccessView: View {
     }
 }
 
+// Preview provider remains accessible from within the module
 #Preview {
     SuccessView()
 }

@@ -1,17 +1,24 @@
-// ProductRowView.swift
-// View for displaying product options
+//
+//  File name: ProductRowView.swift
+//  Project name: subscriptionexample
+//  Workspace name: subscriptionexample
+//
+//  Created by: nothing-to-add on 21/05/2025
+//  Using Swift 6.0
+//  Copyright (c) 2023 nothing-to-add
+//
 
 import SwiftUI
 
-public struct ProductRowView: View {
-    public let name: String
-    public let description: String
-    public let price: String
-    public let periodText: String?
-    public let isSelected: Bool
-    public let monthlyPrice: String?
+struct ProductRowView: View {
+    let name: String
+    let description: String
+    let price: String
+    let periodText: String?
+    let isSelected: Bool
+    let monthlyPrice: String?
     
-    public init(name: String, description: String, price: String, periodText: String?, isSelected: Bool, monthlyPrice: String?) {
+    init(name: String, description: String, price: String, periodText: String?, isSelected: Bool, monthlyPrice: String?) {
         self.name = name
         self.description = description
         self.price = price
@@ -58,6 +65,7 @@ public struct ProductRowView: View {
     }
 }
 
+// Preview provider remains accessible from within the module
 #Preview {
     VStack {
         ProductRowView(name: "Monthly Premium",

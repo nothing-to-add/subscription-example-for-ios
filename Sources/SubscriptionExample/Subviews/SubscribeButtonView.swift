@@ -1,17 +1,23 @@
-// SubscribeButtonView.swift
-// Button for purchasing subscriptions
+//
+//  File name: SubscribeButtonView.swift
+//  Project name: subscriptionexample
+//  Workspace name: subscriptionexample
+//
+//  Created by: nothing-to-add on 22/05/2025
+//  Using Swift 6.0
+//  Copyright (c) 2023 nothing-to-add
+//
 
 import SwiftUI
 import StoreKit
 
-public struct SubscribeButtonView: View {
+struct SubscribeButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
-    @State private var purchaseInProgress = false
     @Binding var selectedProduct: Product?
     @Binding var selectedMockProduct: MockProduct?
     @Binding var errorMessage: String?
     
-    public init(subscriptionManager: SubscriptionManager, 
+    init(subscriptionManager: SubscriptionManager, 
          selectedProduct: Binding<Product?>,
          selectedMockProduct: Binding<MockProduct?>,
          errorMessage: Binding<String?>) {
@@ -21,13 +27,13 @@ public struct SubscribeButtonView: View {
         self._errorMessage = errorMessage
     }
     
-    public var body: some View {
+    var body: some View {
         Button(action: {
             Task {
                 await purchaseSelectedProduct()
             }
         }) {
-            if purchaseInProgress {
+            if case .purchasing = subscriptionManager.purchaseState {
                 ProgressView()
                     .tint(.white)
                     .frame(height: 20)
@@ -37,36 +43,50 @@ public struct SubscribeButtonView: View {
                     .foregroundColor(.white) // Ensuring white text for better contrast
             }
         }
-        .disabled((selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress)
+        .disabled((selectedProduct == nil && selectedMockProduct == nil) || 
+                 subscriptionManager.purchaseState == .purchasing)
         .padding()
         .frame(height: 50)
         .frame(maxWidth: .infinity)
         .background(
-            (selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress ?
+            (selectedProduct == nil && selectedMockProduct == nil) || 
+            subscriptionManager.purchaseState == .purchasing ?
                 LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.7)]), startPoint: .leading, endPoint: .trailing) :
                 LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing)
         )
         .cornerRadius(15)
-        .shadow(color: (selectedProduct == nil && selectedMockProduct == nil) || purchaseInProgress ? Color.clear : Color.black.opacity(0.25), radius: 5, x: 0, y: 2)
+        .shadow(color: (selectedProduct == nil && selectedMockProduct == nil) || 
+               subscriptionManager.purchaseState == .purchasing ? 
+               Color.clear : Color.black.opacity(0.25), radius: 5, x: 0, y: 2)
         .overlay(
             RoundedRectangle(cornerRadius: 15)
                 .stroke(Color.white.opacity(0.3), lineWidth: 1)
         )
+        .onChange(of: subscriptionManager.purchaseState) { state in
+            if case .failed(let message) = state {
+                errorMessage = message
+            } else if case .pendingApproval = state {
+                errorMessage = state.message
+            } else if case .cancelled = state {
+                errorMessage = nil
+                // Reset purchase state after a short delay
+                Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(1.5))
+                    subscriptionManager.resetPurchaseState()
+                }
+            } else {
+                errorMessage = nil
+            }
+        }
     }
     
     private func purchaseSelectedProduct() async {
-        purchaseInProgress = true
+        // Always reset any previous error state
         errorMessage = nil
         
-        defer { purchaseInProgress = false }
-        
         // Handle mock products
-        if selectedMockProduct != nil {
-            // Simulate purchase with mock data
-            try? await Task.sleep(nanoseconds: 2 * 1_000_000_000) // 2 second delay to simulate network request
-            
-            // For demo purposes, automatically succeed with mock products
-            subscriptionManager.isSubscribed = true
+        if let mockProduct = selectedMockProduct {
+            await subscriptionManager.purchase()
             return
         }
         
@@ -75,8 +95,27 @@ public struct SubscribeButtonView: View {
             do {
                 try await subscriptionManager.purchaseSubscription(product: product)
             } catch {
-                errorMessage = "Purchase failed: \(error.localizedDescription)"
+                // The error handling is now done through the purchaseState
+                // in the onChange handler above
             }
         }
     }
+}
+
+// Preview provider remains accessible from within the module
+#Preview {
+    SubscribeButtonView(
+        subscriptionManager: SubscriptionManager(),
+        selectedProduct: .constant(nil),
+        selectedMockProduct: .constant(MockProduct(
+            id: "mock.product",
+            displayName: "Test Product",
+            description: "Test Product Description",
+            displayPrice: "$9.99",
+            subscription: true,
+            period: "Monthly"
+        )),
+        errorMessage: .constant(nil)
+    )
+    .padding()
 }

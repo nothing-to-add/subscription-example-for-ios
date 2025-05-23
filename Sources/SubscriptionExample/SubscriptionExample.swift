@@ -1,5 +1,12 @@
-// SubscriptionExample.swift
-// Main package export file 
+//
+//  File name: SubscriptionExample.swift
+//  Project name: subscriptionexample
+//  Workspace name: subscriptionexample
+//
+//  Created by: nothing-to-add on 21/05/2025
+//  Using Swift 6.0
+//  Copyright (c) 2023 nothing-to-add
+//
 
 // Export all components from the package
 @_exported import SwiftUI
@@ -11,13 +18,39 @@ public struct SubscriptionExample {
     /// Whether to show debug information in the console
     public static var debugMode: Bool = false
     
+    /// Default product identifiers for StoreKit integration
+    public static var productIdentifiers: [String] = ["com.example.subscription"]
+    
     /// Initialize the SubscriptionExample package with configuration options
-    /// - Parameter debugMode: Set to true to enable debug logging
-    public static func initialize(debugMode: Bool = false) {
+    /// - Parameters:
+    ///   - debugMode: Set to true to enable debug logging
+    ///   - productIdentifiers: Array of product identifiers registered in App Store Connect
+    ///
+    /// Example usage:
+    /// ```swift
+    /// // Configure at app launch
+    /// SubscriptionExample.initialize(
+    ///     debugMode: true,
+    ///     productIdentifiers: [
+    ///         "com.yourcompany.yourapp.monthly",
+    ///         "com.yourcompany.yourapp.yearly"
+    ///     ]
+    /// )
+    /// ```
+    ///
+    /// Note: For family sharing features like "Ask to Buy" to work, you need to configure
+    /// Family Sharing for your in-app purchases in App Store Connect. When a child attempts to
+    /// make a purchase, it will enter a "pending" state awaiting parent approval.
+    public static func initialize(debugMode: Bool = false, productIdentifiers: [String]? = nil) {
         Self.debugMode = debugMode
+        
+        if let identifiers = productIdentifiers {
+            Self.productIdentifiers = identifiers
+        }
         
         if debugMode {
             print("SubscriptionExample package initialized with localizations from \(Bundle.module.bundlePath)")
+            print("Using product identifiers: \(Self.productIdentifiers)")
         }
     }
     

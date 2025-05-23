@@ -1,5 +1,12 @@
-// SubscriptionView.swift
-// Main subscription view
+//
+//  File name: SubscriptionView.swift
+//  Project name: subscriptionexample
+//  Workspace name: subscriptionexample
+//
+//  Created by: nothing-to-add on 21/05/2025
+//  Using Swift 6.0
+//  Copyright (c) 2023 nothing-to-add
+//
 
 import SwiftUI
 import StoreKit
@@ -10,9 +17,18 @@ public struct SubscriptionView: View {
     @State private var selectedMockProduct: MockProduct?
     @State private var errorMessage: String? = nil
     
-    public init(useMockData: Bool = true) {
+    /// Initialize the SubscriptionView with configuration options
+    /// - Parameters:
+    ///   - useMockData: When true, mock products will be displayed instead of real App Store products
+    ///   - productIdentifiers: Array of product identifiers registered in App Store Connect
+    public init(useMockData: Bool = true, productIdentifiers: [String]? = nil) {
         // Need to use _subscriptionManager because @StateObject can't be initialized directly in init
-        self._subscriptionManager = StateObject(wrappedValue: SubscriptionManager(useMockData: useMockData))
+        self._subscriptionManager = StateObject(
+            wrappedValue: SubscriptionManager(
+                useMockData: useMockData,
+                productIdentifiers: productIdentifiers ?? SubscriptionExample.productIdentifiers
+            )
+        )
     }
 
     public var body: some View {

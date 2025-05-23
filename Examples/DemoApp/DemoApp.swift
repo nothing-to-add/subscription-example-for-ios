@@ -16,8 +16,15 @@ import SubscriptionExample
 @main
 struct DemoApp: App {
     init() {
-        // Optional: Initialize the package with debug mode
-        SubscriptionExample.initialize(debugMode: true)
+        // Set your app's product identifiers when initializing the package
+        SubscriptionExample.initialize(
+            debugMode: true,
+            productIdentifiers: [
+                "com.yourcompany.yourapp.monthly", 
+                "com.yourcompany.yourapp.yearly",
+                "com.yourcompany.yourapp.lifetime"
+            ]
+        )
         
         // Print available localizations
         print("Available localizations: \(SubscriptionExample.availableLocalizations())")
