@@ -63,14 +63,14 @@ struct SubscriptionView: View {
     }
     
     private var headerView: some View {
-        Text("Premium Access")
+        Text(C.Text.SubscriptionView.title.localized())
             .font(.system(size: 24, weight: .bold, design: .rounded))
     }
     
     @ViewBuilder
     private var productsView: some View {
         VStack(alignment: .center, spacing: 8) {
-            Text("Choose Your Plan")
+            Text(C.Text.SubscriptionView.productsTitle.localized())
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .padding(.leading, 4)
             
@@ -80,7 +80,7 @@ struct SubscriptionView: View {
             if !subscriptionManager.products.isEmpty {
                 availableProductsView
             } else if !subscriptionManager.isSubscribed {
-                ProgressView("Loading plans...")
+                ProgressView(C.Text.SubscriptionView.loadingText.localized())
                     .font(.system(size: 14, design: .rounded))
                     .padding()
             }
@@ -152,7 +152,7 @@ struct SubscriptionView: View {
             RestoreButtonView(subscriptionManager: subscriptionManager)
             
             // Terms & Privacy - minimal
-            Text("Terms & Privacy")
+            Text(C.Text.SubscriptionView.termsTitle.localized())
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundColor(.blue)
                 .underline()
@@ -190,50 +190,38 @@ struct SubscriptionView: View {
         case .day:
             // Calculate monthly price (price * 30 days)
             let monthlyPrice = priceDecimal * Decimal(30) / Decimal(period.value)
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.locale = product.priceFormatStyle.locale
-            if let formattedPrice = formatter.string(from: monthlyPrice as NSDecimalNumber) {
-                return "\(formattedPrice) /month"
-            }
+            return formatMonthlyPrice(monthlyPrice, for: product)
             
         case .week:
             // Calculate monthly price (price * 4 weeks)
             let monthlyPrice = priceDecimal * Decimal(4) / Decimal(period.value)
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.locale = product.priceFormatStyle.locale
-            if let formattedPrice = formatter.string(from: monthlyPrice as NSDecimalNumber) {
-                return "\(formattedPrice) /month"
-            }
+            return formatMonthlyPrice(monthlyPrice, for: product)
             
         case .month:
             if period.value == 1 {
                 return nil // Already monthly
             } else {
                 let monthlyPrice = priceDecimal / Decimal(period.value)
-                let formatter = NumberFormatter()
-                formatter.numberStyle = .currency
-                formatter.locale = product.priceFormatStyle.locale
-                if let formattedPrice = formatter.string(from: monthlyPrice as NSDecimalNumber) {
-                    return "\(formattedPrice) /month"
-                }
+                return formatMonthlyPrice(monthlyPrice, for: product)
             }
             
         case .year:
             // Calculate monthly price (price / 12 months)
             let monthlyPrice = priceDecimal / Decimal(12 * period.value)
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.locale = product.priceFormatStyle.locale
-            if let formattedPrice = formatter.string(from: monthlyPrice as NSDecimalNumber) {
-                return "\(formattedPrice) /month"
-            }
+            return formatMonthlyPrice(monthlyPrice, for: product)
             
         default:
             return nil
         }
-        
+    }
+    
+    private func formatMonthlyPrice(_ monthlyPrice: Decimal, for product: Product) -> String? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = product.priceFormatStyle.locale
+        if let formattedPrice = formatter.string(from: monthlyPrice as NSDecimalNumber) {
+            return String(format: C.Text.SubscriptionView.monthlyPriceText.localized().toLocalizedString(), formattedPrice)
+        }
         return nil
     }
     

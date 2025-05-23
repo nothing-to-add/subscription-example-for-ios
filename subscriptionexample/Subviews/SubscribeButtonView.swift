@@ -10,6 +10,7 @@
 
 import SwiftUI
 import StoreKit
+import CustomExtensions
 
 struct SubscribeButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
@@ -30,7 +31,7 @@ struct SubscribeButtonView: View {
                     .tint(.white)
                     .frame(height: 20)
             } else {
-                Text("SUBSCRIBE NOW")
+                Text(C.Text.SubscribeButton.title.localized())
                     .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(.white) // Ensuring white text for better contrast
             }

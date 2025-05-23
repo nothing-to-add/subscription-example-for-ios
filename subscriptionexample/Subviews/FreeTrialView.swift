@@ -9,16 +9,17 @@
 //
 
 import SwiftUI
+import CustomExtensions
 
 struct FreeTrialView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("5 DAYS FREE \nTRIAL")
+            Text(C.Text.FreeTrial.title.localized().toLocalizedString())
                 .font(.system(size: 45, weight: .heavy, design: .rounded))
                 .foregroundColor(.blue)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text("Cancel anytime before your trial ends")
+            Text(C.Text.FreeTrial.subtitle.localized())
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundColor(.secondary)
         }

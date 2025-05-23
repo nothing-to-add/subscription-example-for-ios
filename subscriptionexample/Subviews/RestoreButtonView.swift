@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import CustomExtensions
 
 struct RestoreButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
@@ -19,7 +20,7 @@ struct RestoreButtonView: View {
                 await subscriptionManager.restore()
             }
         }) {
-            Text("Restore Purchases")
+            Text(C.Text.ReRestoreButton.title.localized())
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundColor(.secondary)
         }

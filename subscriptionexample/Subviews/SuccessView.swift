@@ -9,20 +9,21 @@
 //
 
 import SwiftUI
+import CustomExtensions
 
 struct SuccessView: View {
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: "checkmark.circle.fill")
+            Image(systemName: C.Image.successLogo)
                 .font(.system(size: 60))
                 .foregroundColor(.green)
                 .padding()
             
-            Text("Thank you for subscribing!")
+            Text(C.Text.SuccessView.title.localized())
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .multilineTextAlignment(.center)
             
-            Text("Enjoy full access to all premium features")
+            Text(C.Text.SuccessView.subtitle.localized())
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -35,4 +36,9 @@ struct SuccessView: View {
 
 #Preview {
     SuccessView()
+}
+
+#Preview {
+    SuccessView()
+        .environment(\.locale, .init(identifier: "DE"))
 }
