@@ -37,7 +37,7 @@ public struct C {
             public static let productsTitle = "Subscription View Products Title"
             public static let loadingText = "Subscription View Loading Text"
             public static let termsTitle = "Subscription View Terms Title"
-            public static let monthlyPriceText = "%@ /month"
+            public static let monthlyPriceText = "Subscription View Monthly Price Text"
         }
     }
     

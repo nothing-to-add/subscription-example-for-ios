@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "Free Trial Subtitle" : {
       "comment" : "FreeTrialView",
       "extractionState" : "manual",
