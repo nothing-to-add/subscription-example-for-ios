@@ -20,11 +20,11 @@ struct SuccessView: View {
                 .foregroundColor(.green)
                 .padding()
             
-            Text(C.Text.SuccessView.title.localized().toLocalizedString())
+            Text(C.Text.SuccessView.title.localizedPackage)
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .multilineTextAlignment(.center)
             
-            Text(C.Text.SuccessView.subtitle.localized())
+            Text(C.Text.SuccessView.subtitle.localizedPackage)
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -36,6 +36,19 @@ struct SuccessView: View {
 }
 
 // Preview provider remains accessible from within the module
-#Preview {
-    SuccessView()
+struct SuccessView_Previews_DE: PreviewProvider {
+    static var previews: some View {
+        SuccessView()
+            .environment(\.locale, .init(identifier: "de"))
+            .previewDisplayName("German")
+    }
+}
+
+// Preview for English locale
+struct SuccessView_Previews_EN: PreviewProvider {
+    static var previews: some View {
+        SuccessView()
+            .environment(\.locale, .init(identifier: "en"))
+            .previewDisplayName("English")
+    }
 }

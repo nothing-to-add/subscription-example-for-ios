@@ -38,7 +38,7 @@ struct SubscribeButtonView: View {
                     .tint(.white)
                     .frame(height: 20)
             } else {
-                Text(C.Text.SubscribeButton.title.localized())
+                Text(C.Text.SubscribeButton.title.localizedPackage)
                     .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(.white) // Ensuring white text for better contrast
             }
@@ -85,7 +85,7 @@ struct SubscribeButtonView: View {
         errorMessage = nil
         
         // Handle mock products
-        if let mockProduct = selectedMockProduct {
+        if selectedMockProduct != nil {
             await subscriptionManager.purchase()
             return
         }

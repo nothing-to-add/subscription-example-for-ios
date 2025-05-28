@@ -11,16 +11,18 @@
 import SwiftUI
 
 struct FreeTrialView: View {
+    @Environment(\.locale) var locale
+    
     init() {}
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(C.Text.FreeTrial.title.localized().toLocalizedString())
+            Text(C.Text.FreeTrial.title.localizedStringPackage)
                 .font(.system(size: 45, weight: .heavy, design: .rounded))
                 .foregroundColor(.blue)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text(C.Text.FreeTrial.subtitle.localized())
+            Text(C.Text.FreeTrial.subtitle.localizedPackage)
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundColor(.secondary)
         }
@@ -29,7 +31,20 @@ struct FreeTrialView: View {
     }
 }
 
-// Preview provider remains accessible from within the module
-#Preview {
-    FreeTrialView()
+// Preview for German locale
+struct FreeTrialView_Previews_DE: PreviewProvider {
+    static var previews: some View {
+        FreeTrialView()
+            .environment(\.locale, .init(identifier: "de"))
+            .previewDisplayName("German")
+    }
+}
+
+// Preview for English locale
+struct FreeTrialView_Previews_EN: PreviewProvider {
+    static var previews: some View {
+        FreeTrialView()
+            .environment(\.locale, .init(identifier: "en"))
+            .previewDisplayName("English")
+    }
 }

@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "SubscriptionExample",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v16),
         .macOS(.v13),
@@ -26,7 +27,8 @@ let package = Package(
                 .product(name: "CustomExtensions", package: "swift-custom-extensions")
             ],
             resources: [
-                .process("Resources")
+                .process("Resources/en.lproj"),
+                .process("Resources/de.lproj")
             ]),
         .testTarget(
             name: "SubscriptionExampleTests",

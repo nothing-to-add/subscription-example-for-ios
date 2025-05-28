@@ -28,7 +28,7 @@ struct RestoreButtonView: View {
                     .frame(height: 20)
                     .tint(.secondary)
             } else {
-                Text(C.Text.ReRestoreButton.title.localized())
+                Text(C.Text.ReRestoreButton.title.localizedPackage)
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundColor(.secondary)
             }
@@ -38,6 +38,20 @@ struct RestoreButtonView: View {
 }
 
 // Preview provider remains accessible from within the module
-#Preview {
-    RestoreButtonView(subscriptionManager: SubscriptionManager())
+// Preview for German locale
+struct RestoreButtonView_Previews_DE: PreviewProvider {
+    static var previews: some View {
+        RestoreButtonView(subscriptionManager: SubscriptionManager())
+            .environment(\.locale, .init(identifier: "de"))
+            .previewDisplayName("German")
+    }
+}
+
+// Preview for English locale
+struct RestoreButtonView_Previews_EN: PreviewProvider {
+    static var previews: some View {
+        RestoreButtonView(subscriptionManager: SubscriptionManager())
+            .environment(\.locale, .init(identifier: "en"))
+            .previewDisplayName("English")
+    }
 }

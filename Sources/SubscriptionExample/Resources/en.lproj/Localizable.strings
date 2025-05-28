@@ -1,0 +1,32 @@
+/* FreeTrialView */
+"Free Trial Subtitle" = "Cancel anytime before your trial ends";
+
+/* FreeTrialView */
+"Free Trial Title" = "5 DAYS FREE \nTRIAL";
+
+/* Restore Purchases Button View */
+"Restore Purchases Button Title" = "Restore Purchases";
+
+/* Subscribe Button View */
+"Subscribe Button Title" = "SUBSCRIBE NOW";
+
+/* Subscription View */
+"Subscription View Loading Text" = "Loading plans...";
+
+/* Subscription View */
+"Subscription View Monthly Price Text" = "%@ /month";
+
+/* Subscription View */
+"Subscription View Products Title" = "Choose Your Plan";
+
+/* Subscription View */
+"Subscription View Terms Title" = "Terms & Privacy";
+
+/* Subscription View */
+"Subscription View Title" = "Premium Access";
+
+/* Success View */
+"Success View Subtitle" = "Enjoy full access to all premium features";
+
+/* Success View */
+"Success View Title" = "Thank you for subscribing!";

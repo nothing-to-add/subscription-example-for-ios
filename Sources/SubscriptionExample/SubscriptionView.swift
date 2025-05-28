@@ -76,14 +76,14 @@ public struct SubscriptionView: View {
     }
     
     private var headerView: some View {
-        Text(C.Text.SubscriptionView.title.localized())
+        Text(C.Text.SubscriptionView.title.localizedPackage)
             .font(.system(size: 24, weight: .bold, design: .rounded))
     }
     
     @ViewBuilder
     private var productsView: some View {
         VStack(alignment: .center, spacing: 8) {
-            Text(C.Text.SubscriptionView.productsTitle.localized())
+            Text(C.Text.SubscriptionView.productsTitle.localizedPackage)
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .padding(.leading, 4)
             
@@ -93,7 +93,7 @@ public struct SubscriptionView: View {
             if !subscriptionManager.products.isEmpty {
                 availableProductsView
             } else if !subscriptionManager.isSubscribed {
-                ProgressView(C.Text.SubscriptionView.loadingText.localized())
+                ProgressView(C.Text.SubscriptionView.loadingText.localizedPackage)
                     .font(.system(size: 14, design: .rounded))
                     .padding()
             }
@@ -165,7 +165,7 @@ public struct SubscriptionView: View {
             RestoreButtonView(subscriptionManager: subscriptionManager)
             
             // Terms & Privacy - minimal
-            Text(C.Text.SubscriptionView.termsTitle.localized())
+            Text(C.Text.SubscriptionView.termsTitle.localizedPackage)
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundColor(.blue)
                 .underline()
@@ -233,7 +233,7 @@ public struct SubscriptionView: View {
         formatter.numberStyle = .currency
         formatter.locale = product.priceFormatStyle.locale
         if let formattedPrice = formatter.string(from: monthlyPrice as NSDecimalNumber) {
-            return String(format: C.Text.SubscriptionView.monthlyPriceText.localized().toLocalizedString(), formattedPrice)
+            return String(format: C.Text.SubscriptionView.monthlyPriceText.localizedPackage, formattedPrice)
         }
         return nil
     }
@@ -249,11 +249,11 @@ public struct SubscriptionView: View {
         if period.contains("week") {
             // Weekly to monthly: price * 4
             let monthlyPrice = priceValue * 4
-            return String(format: C.Text.SubscriptionView.monthlyPriceText.localized().toLocalizedString(), String(format: "$%.2f", monthlyPrice))
+            return String(format: C.Text.SubscriptionView.monthlyPriceText.localizedPackage, String(format: "$%.2f", monthlyPrice))
         } else if period.contains("year") || period.contains("annual") {
             // Yearly to monthly: price / 12
             let monthlyPrice = priceValue / 12
-            return String(format: C.Text.SubscriptionView.monthlyPriceText.localized().toLocalizedString(), String(format: "$%.2f", monthlyPrice))
+            return String(format: C.Text.SubscriptionView.monthlyPriceText.localizedPackage, String(format: "$%.2f", monthlyPrice))
         } else if period.contains("month") {
             // Already monthly
             return nil
@@ -282,5 +282,6 @@ public struct SubscriptionView: View {
 
 #Preview {
     SubscriptionView()
+        .environment(\.locale, .init(identifier: "de"))
 }
 

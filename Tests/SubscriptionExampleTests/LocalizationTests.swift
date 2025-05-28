@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import SubscriptionExample
 
 final class LocalizationTests: XCTestCase {
@@ -22,11 +23,11 @@ final class LocalizationTests: XCTestCase {
         ]
         
         for key in keys {
-            // Get localized string using the same method the UI uses
-            let localized = NSLocalizedString(key, bundle: .module, comment: "")
+            // For legacy .strings files we can use NSLocalizedString directly
+            let localizedString = NSLocalizedString(key, tableName: "Localizable", bundle: .module, comment: "")
             
-            // If localization fails, we get back the same string
-            XCTAssertNotEqual(key, localized, "String '\(key)' is not localized, check Localizable.xcstrings")
+            // Check that the string is actually localized (not same as the key)
+            XCTAssertNotEqual(localizedString, key, "String '\(key)' is not localized, check Localizable.strings")
             
             // We could add more specific tests for the expected values
             // but that would require updating the test every time we change translations
