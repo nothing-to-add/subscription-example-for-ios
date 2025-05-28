@@ -69,12 +69,34 @@ struct ContentView: View {
 
 ### Localization
 
-The package includes built-in localizations. Constants are defined in `C.Text` and can be used with the localization extensions:
+The package includes built-in localizations using legacy `.strings` files. Constants are defined in `C.Text` and can be used with the localization extensions:
 
 ```swift
 // In your SwiftUI views:
 Text(C.Text.FreeTrial.title.localized())  // Use LocalizedStringKey for SwiftUI
 Text(C.Text.FreeTrial.title.localized().toLocalizedString())  // Convert to String
+```
+
+#### Important Localization Note
+
+This package uses legacy `.strings` files for localization. When importing this package into your project:
+
+1. If you want to support localization for strings from this package, you **must** use legacy `.strings` files in your project as well.
+2. Create language-specific folders in your project with `.strings` files:
+   - `YourApp/Resources/en.lproj/Localizable.strings`
+   - `YourApp/Resources/de.lproj/Localizable.strings`
+3. While you can use String Catalog (`.xcstrings`) for your app's own strings, the package strings will only work with the legacy approach.
+
+Example implementation for language switching:
+
+```swift
+// Function to switch language
+func switchLanguage(to languageCode: String) {
+    UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
+    UserDefaults.standard.synchronize()
+    
+    // Restart your app or reload views to apply the change
+}
 ```
 
 ### Example App

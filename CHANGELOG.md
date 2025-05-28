@@ -5,6 +5,16 @@ All notable changes to the SubscriptionExample package will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2025-05-29
+
+### Added
+- Updated documentation clarifying localization requirements for importing projects
+- Added explicit notes about legacy `.strings` files compatibility in README
+
+### Changed
+- Improved StringExtensions with better naming conventions
+- Enhanced localization examples in documentation
+
 ## [1.0.4] - 2025-05-28
 
 ### Changed
