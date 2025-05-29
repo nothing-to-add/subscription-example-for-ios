@@ -24,6 +24,7 @@ A Swift Package for implementing in-app subscriptions in iOS applications.
 - Localization support
 - Integration with CustomExtensions for String localization
 - Clean public API with a single entry point
+- Customizable close button for better integration with your app's navigation
 
 ## Installation
 
@@ -51,18 +52,32 @@ import SwiftUI
 import SubscriptionExample
 
 struct ContentView: View {
+    @State private var showSubscription = false
+    
     var body: some View {
-        // Initialize the package with your product identifiers
-        SubscriptionExample.initialize(
-            debugMode: true,
-            productIdentifiers: [
-                "com.yourcompany.yourapp.monthly",
-                "com.yourcompany.yourapp.yearly"
-            ]
-        )
-        
-        // Use the subscription view
-        return SubscriptionView(useMockData: true)
+        VStack {
+            Button("Show Subscription") {
+                showSubscription = true
+            }
+        }
+        .sheet(isPresented: $showSubscription) {
+            // Initialize the package with your product identifiers
+            SubscriptionExample.initialize(
+                debugMode: true,
+                productIdentifiers: [
+                    "com.yourcompany.yourapp.monthly",
+                    "com.yourcompany.yourapp.yearly"
+                ]
+            )
+            
+            // Use the subscription view with a close button handler
+            SubscriptionView(
+                useMockData: true,
+                onCloseButtonTapped: {
+                    showSubscription = false
+                }
+            )
+        }
     }
 }
 ```

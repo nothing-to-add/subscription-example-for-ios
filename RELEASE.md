@@ -20,13 +20,13 @@ git tag -a vX.Y.Z -m "Release version X.Y.Z"
 git push origin vX.Y.Z
 ```
 
-### Creating the 1.0.0 Release
+### Creating the 1.0.5 Release
 
-For the initial 1.0.0 release, you can use:
+For the 1.0.5 release with the new close button feature:
 
 ```bash
-git tag -a v1.0.0 -m "Initial release"
-git push origin v1.0.0
+git tag -a v1.0.5 -m "Release version 1.0.5 with close button feature"
+git push origin v1.0.5
 ```
 
 ## After Release
