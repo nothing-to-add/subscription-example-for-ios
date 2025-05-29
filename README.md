@@ -25,6 +25,7 @@ A Swift Package for implementing in-app subscriptions in iOS applications.
 - Integration with CustomExtensions for String localization
 - Clean public API with a single entry point
 - Customizable close button for better integration with your app's navigation
+- Cross-platform compatibility for iOS, macOS, watchOS and visionOS
 
 ## Installation
 
@@ -81,6 +82,17 @@ struct ContentView: View {
     }
 }
 ```
+
+### Cross-Platform Compatibility
+
+The SubscriptionExample package is designed to work seamlessly across multiple Apple platforms:
+
+- **iOS/iPadOS**: Full support with optimized UI for touch interfaces
+- **macOS**: Custom button styling ensures consistent appearance without platform-specific rendering issues
+- **watchOS**: Simplified interface adapted for smaller screens
+- **visionOS**: Compatible with the latest Apple platform
+
+Version 1.0.6 specifically addresses button rendering issues on macOS to ensure the UI looks consistent across all platforms.
 
 ### Localization
 

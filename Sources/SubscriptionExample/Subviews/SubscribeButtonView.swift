@@ -11,6 +11,14 @@
 import SwiftUI
 import StoreKit
 
+// Custom button style to ensure consistent appearance across platforms
+struct SubscriptionButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .contentShape(Rectangle()) // Ensures the entire area is tappable
+    }
+}
+
 struct SubscribeButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
     @Binding var selectedProduct: Product?
@@ -39,20 +47,34 @@ struct SubscribeButtonView: View {
                     .frame(height: 20)
             } else {
                 Text(C.Text.SubscribeButton.title.localizedPackage)
-                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white) // Ensuring white text for better contrast
             }
         }
+        .buttonStyle(SubscriptionButtonStyle()) // Use custom button style
         .disabled((selectedProduct == nil && selectedMockProduct == nil) || 
                  subscriptionManager.purchaseState == .purchasing)
         .padding()
         .frame(height: 50)
         .frame(maxWidth: .infinity)
         .background(
-            (selectedProduct == nil && selectedMockProduct == nil) || 
-            subscriptionManager.purchaseState == .purchasing ?
-                LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.7)]), startPoint: .leading, endPoint: .trailing) :
-                LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing)
+            Group {
+                if (selectedProduct == nil && selectedMockProduct == nil) || 
+                    subscriptionManager.purchaseState == .purchasing {
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.7)]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                } else {
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.blue, Color.purple]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                }
+            }
+            .cornerRadius(15)
         )
         .cornerRadius(15)
         .shadow(color: (selectedProduct == nil && selectedMockProduct == nil) || 

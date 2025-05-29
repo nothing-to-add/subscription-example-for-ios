@@ -10,6 +10,14 @@
 
 import SwiftUI
 
+// Use the same button style as in SubscribeButtonView for consistency
+private struct RestoreButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .contentShape(Rectangle())
+    }
+}
+
 struct RestoreButtonView: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
     
@@ -29,10 +37,11 @@ struct RestoreButtonView: View {
                     .tint(.secondary)
             } else {
                 Text(C.Text.ReRestoreButton.title.localizedPackage)
-                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .font(.system(size: 14, weight: .medium))
                     .foregroundColor(.secondary)
             }
         }
+        .buttonStyle(RestoreButtonStyle())
         .disabled(subscriptionManager.purchaseState == .purchasing)
     }
 }

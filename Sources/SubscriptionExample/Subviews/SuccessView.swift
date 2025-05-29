@@ -21,11 +21,11 @@ struct SuccessView: View {
                 .padding()
             
             Text(C.Text.SuccessView.title.localizedPackage)
-                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .font(.system(size: 24, weight: .bold))
                 .multilineTextAlignment(.center)
             
             Text(C.Text.SuccessView.subtitle.localizedPackage)
-                .font(.system(size: 16, weight: .regular, design: .rounded))
+                .font(.system(size: 16, weight: .regular))
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)

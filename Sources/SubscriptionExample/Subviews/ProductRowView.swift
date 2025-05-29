@@ -31,19 +31,19 @@ struct ProductRowView: View {
         VStack(spacing: 6) {
             // Product name in center
             Text(name)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(isSelected ? .white : .primary)
                 .frame(maxWidth: .infinity)
             
             // Price
             Text(price)
-                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(isSelected ? .white : .primary)
             
             // Monthly price calculation if available
             if let monthlyPrice = monthlyPrice {
                 Text(monthlyPrice)
-                    .font(.system(size: 12, weight: .regular, design: .rounded))
+                    .font(.system(size: 12, weight: .regular))
                     .foregroundColor(isSelected ? .white.opacity(0.9) : .secondary)
             }
         }

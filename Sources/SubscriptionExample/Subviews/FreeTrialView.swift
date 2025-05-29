@@ -18,12 +18,12 @@ struct FreeTrialView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(C.Text.FreeTrial.title.localizedStringPackage)
-                .font(.system(size: 45, weight: .heavy, design: .rounded))
+                .font(.system(size: 45, weight: .heavy))
                 .foregroundColor(.blue)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Text(C.Text.FreeTrial.subtitle.localizedPackage)
-                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.secondary)
         }
         .padding(10)

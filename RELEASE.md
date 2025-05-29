@@ -20,6 +20,15 @@ git tag -a vX.Y.Z -m "Release version X.Y.Z"
 git push origin vX.Y.Z
 ```
 
+### Creating the 1.0.6 Release
+
+For the 1.0.6 release with macOS button rendering fixes:
+
+```bash
+git tag -a v1.0.6 -m "Release version 1.0.6 with macOS button rendering fixes"
+git push origin v1.0.6
+```
+
 ### Creating the 1.0.5 Release
 
 For the 1.0.5 release with the new close button feature:

@@ -93,14 +93,14 @@ public struct SubscriptionView: View {
     
     private var headerView: some View {
         Text(C.Text.SubscriptionView.title.localizedPackage)
-            .font(.system(size: 24, weight: .bold, design: .rounded))
+            .font(.system(size: 24, weight: .bold))
     }
     
     @ViewBuilder
     private var productsView: some View {
         VStack(alignment: .center, spacing: 8) {
             Text(C.Text.SubscriptionView.productsTitle.localizedPackage)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .font(.system(size: 18, weight: .semibold))
                 .padding(.leading, 4)
             
             if !subscriptionManager.mockProducts.isEmpty {
@@ -110,7 +110,7 @@ public struct SubscriptionView: View {
                 availableProductsView
             } else if !subscriptionManager.isSubscribed {
                 ProgressView(C.Text.SubscriptionView.loadingText.localizedPackage)
-                    .font(.system(size: 14, design: .rounded))
+                    .font(.system(size: 14))
                     .padding()
             }
         }
@@ -182,7 +182,7 @@ public struct SubscriptionView: View {
             
             // Terms & Privacy - minimal
             Text(C.Text.SubscriptionView.termsTitle.localizedPackage)
-                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.blue)
                 .underline()
         }
@@ -200,7 +200,7 @@ public struct SubscriptionView: View {
             // Error message if present
             if let error = errorMessage {
                 Text(error)
-                    .font(.system(size: 14, design: .rounded))
+                    .font(.system(size: 14))
                     .foregroundColor(.red)
             }
             
@@ -306,10 +306,13 @@ public struct SubscriptionView: View {
                     .frame(width: 32, height: 32)
                 
                 Image(systemName: "xmark")
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
+                    .imageScale(.medium)
             }
         }
+        .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to prevent default styling
+        .contentShape(Circle()) // Ensure the hit area is circular
         .accessibilityLabel("Close")
     }
 }

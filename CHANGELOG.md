@@ -5,6 +5,18 @@ All notable changes to the SubscriptionExample package will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+- No changes yet.
+
+## [1.0.6] - 2025-05-30
+
+### Fixed
+- Fixed rendering issues with buttons on macOS where unwanted rounded semi-transparent backgrounds were appearing
+- Added custom button styles to prevent default macOS button styling
+- Improved gradient background rendering in SubscribeButtonView
+- Enhanced cross-platform compatibility between iOS and macOS
+- Improved the close button with better touch area and styling
+
 ## [1.0.5] - 2025-05-29
 
 ### Added
