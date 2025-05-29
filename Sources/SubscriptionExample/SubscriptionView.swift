@@ -16,12 +16,14 @@ public struct SubscriptionView: View {
     @State private var selectedProduct: Product?
     @State private var selectedMockProduct: MockProduct?
     @State private var errorMessage: String? = nil
+    private var onCloseButtonTapped: (() -> Void)?
     
     /// Initialize the SubscriptionView with configuration options
     /// - Parameters:
     ///   - useMockData: When true, mock products will be displayed instead of real App Store products
     ///   - productIdentifiers: Array of product identifiers registered in App Store Connect
-    public init(useMockData: Bool = true, productIdentifiers: [String]? = nil) {
+    ///   - onCloseButtonTapped: Closure that will be called when the close button is tapped
+    public init(useMockData: Bool = true, productIdentifiers: [String]? = nil, onCloseButtonTapped: (() -> Void)? = nil) {
         // Need to use _subscriptionManager because @StateObject can't be initialized directly in init
         self._subscriptionManager = StateObject(
             wrappedValue: SubscriptionManager(
@@ -29,6 +31,7 @@ public struct SubscriptionView: View {
                 productIdentifiers: productIdentifiers ?? SubscriptionExample.productIdentifiers
             )
         )
+        self.onCloseButtonTapped = onCloseButtonTapped
     }
 
     public var body: some View {
@@ -61,6 +64,19 @@ public struct SubscriptionView: View {
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
+                
+                // Close button in top right corner
+                if let closeAction = onCloseButtonTapped {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            closeButton(action: closeAction)
+                        }
+                        Spacer()
+                    }
+                    .padding(16)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                }
             }
         }
     }
@@ -278,10 +294,30 @@ public struct SubscriptionView: View {
             return nil
         }
     }
+    
+    /// Creates a close button with a cross icon
+    /// - Parameter action: The action to perform when the button is tapped
+    /// - Returns: A view representing the close button
+    private func closeButton(action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            ZStack {
+                Circle()
+                    .fill(Color.black.opacity(0.3))
+                    .frame(width: 32, height: 32)
+                
+                Image(systemName: "xmark")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.white)
+            }
+        }
+        .accessibilityLabel("Close")
+    }
 }
 
 #Preview {
-    SubscriptionView()
-        .environment(\.locale, .init(identifier: "de"))
+    SubscriptionView(onCloseButtonTapped: {
+        print("Close button tapped")
+    })
+    .environment(\.locale, .init(identifier: "de"))
 }
 
