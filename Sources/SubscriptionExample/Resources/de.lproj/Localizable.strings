@@ -2,7 +2,7 @@
 "Free Trial Subtitle" = "Sie können jederzeit vor Ablauf der Testphase kündigen.";
 
 /* FreeTrialView */
-"Free Trial Title" = "5 TAGE KOSTENLOS TESTEN";
+"Free Trial Title %@" = "%@ TAGE KOSTENLOS TESTEN";
 
 /* Restore Purchases Button View */
 "Restore Purchases Button Title" = "Käufe wiederherstellen";

@@ -15,7 +15,7 @@ public struct C {
     public struct Text {
         
         public struct FreeTrial {
-            public static let title = "Free Trial Title"
+            public static let title = "Free Trial Title %@"
             public static let subtitle = "Free Trial Subtitle"
         }
         

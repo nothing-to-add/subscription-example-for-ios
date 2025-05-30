@@ -12,12 +12,15 @@ import SwiftUI
 
 struct FreeTrialView: View {
     @Environment(\.locale) var locale
+    let freeTrialDays: Int
     
-    init() {}
+    init(freeTrialDays: Int) {
+        self.freeTrialDays = freeTrialDays
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(C.Text.FreeTrial.title.localizedStringPackage)
+            Text(String(format: C.Text.FreeTrial.title.localizedStringPackage, "\(freeTrialDays)"))
                 .font(.system(size: 45, weight: .heavy))
                 .foregroundColor(.blue)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,7 +37,7 @@ struct FreeTrialView: View {
 // Preview for German locale
 struct FreeTrialView_Previews_DE: PreviewProvider {
     static var previews: some View {
-        FreeTrialView()
+        FreeTrialView(freeTrialDays: 5)
             .environment(\.locale, .init(identifier: "de"))
             .previewDisplayName("German")
     }
@@ -43,7 +46,7 @@ struct FreeTrialView_Previews_DE: PreviewProvider {
 // Preview for English locale
 struct FreeTrialView_Previews_EN: PreviewProvider {
     static var previews: some View {
-        FreeTrialView()
+        FreeTrialView(freeTrialDays: 5)
             .environment(\.locale, .init(identifier: "en"))
             .previewDisplayName("English")
     }

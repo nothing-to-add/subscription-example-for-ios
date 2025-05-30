@@ -26,6 +26,7 @@ A Swift Package for implementing in-app subscriptions in iOS applications.
 - Clean public API with a single entry point
 - Customizable close button for better integration with your app's navigation
 - Cross-platform compatibility for iOS, macOS, watchOS and visionOS
+- Customizable free trial period with dynamic localized text
 
 ## Installation
 
@@ -39,7 +40,7 @@ A Swift Package for implementing in-app subscriptions in iOS applications.
 #### Using Package.swift:
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/subscription-example-for-ios.git", from: "1.0.0")
+    .package(url: "https://github.com/yourusername/subscription-example-for-ios.git", from: "1.0.7")
 ]
 ```
 
@@ -62,22 +63,33 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showSubscription) {
-            // Initialize the package with your product identifiers
+            // Initialize the package with your product identifiers and default free trial days
             SubscriptionExample.initialize(
                 debugMode: true,
                 productIdentifiers: [
                     "com.yourcompany.yourapp.monthly",
                     "com.yourcompany.yourapp.yearly"
-                ]
+                ],
+                defaultFreeTrialDays: 5
             )
             
             // Use the subscription view with a close button handler
+            // Option 1: Using the default free trial days (5 days as set above)
             SubscriptionView(
                 useMockData: true,
                 onCloseButtonTapped: {
                     showSubscription = false
                 }
             )
+            
+            // Option 2: Overriding the free trial days per instance
+            // SubscriptionView(
+            //     useMockData: true,
+            //     freeTrialDays: 30,  // Override with 30 days for this specific view
+            //     onCloseButtonTapped: {
+            //         showSubscription = false
+            //     }
+            // )
         }
     }
 }
@@ -92,7 +104,7 @@ The SubscriptionExample package is designed to work seamlessly across multiple A
 - **watchOS**: Simplified interface adapted for smaller screens
 - **visionOS**: Compatible with the latest Apple platform
 
-Version 1.0.6 specifically addresses button rendering issues on macOS to ensure the UI looks consistent across all platforms.
+Version 1.0.6 specifically addresses button rendering issues on macOS, and version 1.0.7 adds customizable free trial days to ensure the UI looks consistent and flexible across all platforms.
 
 ### Localization
 

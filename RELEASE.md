@@ -20,6 +20,15 @@ git tag -a vX.Y.Z -m "Release version X.Y.Z"
 git push origin vX.Y.Z
 ```
 
+### Creating the 1.0.7 Release
+
+For the 1.0.7 release with customizable free trial days:
+
+```bash
+git tag -a v1.0.7 -m "Release version 1.0.7 with customizable free trial days"
+git push origin v1.0.7
+```
+
 ### Creating the 1.0.6 Release
 
 For the 1.0.6 release with macOS button rendering fixes:

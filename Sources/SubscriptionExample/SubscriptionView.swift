@@ -17,13 +17,15 @@ public struct SubscriptionView: View {
     @State private var selectedMockProduct: MockProduct?
     @State private var errorMessage: String? = nil
     private var onCloseButtonTapped: (() -> Void)?
+    private var freeTrialDays: Int
     
     /// Initialize the SubscriptionView with configuration options
     /// - Parameters:
     ///   - useMockData: When true, mock products will be displayed instead of real App Store products
     ///   - productIdentifiers: Array of product identifiers registered in App Store Connect
+    ///   - freeTrialDays: Number of days for the free trial period (defaults to SubscriptionExample.defaultFreeTrialDays)
     ///   - onCloseButtonTapped: Closure that will be called when the close button is tapped
-    public init(useMockData: Bool = true, productIdentifiers: [String]? = nil, onCloseButtonTapped: (() -> Void)? = nil) {
+    public init(useMockData: Bool = true, productIdentifiers: [String]? = nil, freeTrialDays: Int = SubscriptionExample.defaultFreeTrialDays, onCloseButtonTapped: (() -> Void)? = nil) {
         // Need to use _subscriptionManager because @StateObject can't be initialized directly in init
         self._subscriptionManager = StateObject(
             wrappedValue: SubscriptionManager(
@@ -32,6 +34,7 @@ public struct SubscriptionView: View {
             )
         )
         self.onCloseButtonTapped = onCloseButtonTapped
+        self.freeTrialDays = freeTrialDays
     }
 
     public var body: some View {
@@ -50,7 +53,7 @@ public struct SubscriptionView: View {
                             headerView
                             
                             // Free trial - prominent
-                            FreeTrialView()
+                            FreeTrialView(freeTrialDays: freeTrialDays)
                             
                             // Products - compact
                             productsView
@@ -318,9 +321,12 @@ public struct SubscriptionView: View {
 }
 
 #Preview {
-    SubscriptionView(onCloseButtonTapped: {
-        print("Close button tapped")
-    })
+    SubscriptionView(
+        freeTrialDays: 5,
+        onCloseButtonTapped: {
+            print("Close button tapped")
+        }
+    )
     .environment(\.locale, .init(identifier: "de"))
 }
 

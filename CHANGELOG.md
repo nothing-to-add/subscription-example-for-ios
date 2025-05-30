@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - No changes yet.
 
+## [1.0.7] - 2025-05-31
+
+### Added
+- Added required `freeTrialDays` parameter to the SubscriptionView initializer to allow customization of the free trial period
+- Updated localization to support dynamic free trial days in both English and German
+
 ## [1.0.6] - 2025-05-30
 
 ### Fixed

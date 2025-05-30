@@ -21,10 +21,14 @@ public struct SubscriptionExample {
     /// Default product identifiers for StoreKit integration
     public static var productIdentifiers: [String] = ["com.example.subscription"]
     
+    /// Default number of days for free trial
+    public static var defaultFreeTrialDays: Int = 5
+    
     /// Initialize the SubscriptionExample package with configuration options
     /// - Parameters:
     ///   - debugMode: Set to true to enable debug logging
     ///   - productIdentifiers: Array of product identifiers registered in App Store Connect
+    ///   - defaultFreeTrialDays: Default number of days for the free trial period
     ///
     /// Example usage:
     /// ```swift
@@ -34,15 +38,17 @@ public struct SubscriptionExample {
     ///     productIdentifiers: [
     ///         "com.yourcompany.yourapp.monthly",
     ///         "com.yourcompany.yourapp.yearly"
-    ///     ]
+    ///     ],
+    ///     defaultFreeTrialDays: 5
     /// )
     /// ```
     ///
     /// Note: For family sharing features like "Ask to Buy" to work, you need to configure
     /// Family Sharing for your in-app purchases in App Store Connect. When a child attempts to
     /// make a purchase, it will enter a "pending" state awaiting parent approval.
-    public static func initialize(debugMode: Bool = false, productIdentifiers: [String]? = nil) {
+    public static func initialize(debugMode: Bool = false, productIdentifiers: [String]? = nil, defaultFreeTrialDays: Int = 5) {
         Self.debugMode = debugMode
+        Self.defaultFreeTrialDays = defaultFreeTrialDays
         
         if let identifiers = productIdentifiers {
             Self.productIdentifiers = identifiers

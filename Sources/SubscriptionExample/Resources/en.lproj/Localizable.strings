@@ -2,7 +2,7 @@
 "Free Trial Subtitle" = "Cancel anytime before your trial ends";
 
 /* FreeTrialView */
-"Free Trial Title" = "5 DAYS FREE \nTRIAL";
+"Free Trial Title %@" = "%@ DAYS FREE \nTRIAL";
 
 /* Restore Purchases Button View */
 "Restore Purchases Button Title" = "Restore Purchases";
